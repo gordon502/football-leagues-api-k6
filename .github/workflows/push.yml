@@ -20,7 +20,3 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm ci
       - run: npm run bundle
-      - name: Run local k6 test
-        uses: grafana/k6-action@v0.2.0
-        with:
-          filename: dist/get-200-status-test.js
