@@ -1,6 +1,19 @@
 export type WithId = {
   id: string;
-};
+} & Record<string, unknown>;
+
+export type InputKey =
+  'articles' |
+  'games' |
+  'gameEvents' |
+  'leaderboards' |
+  'leagues' |
+  'organizationalUnits' |
+  'rounds' |
+  'seasons' |
+  'seasonTeams' |
+  'teams' |
+  'users';
 
 export type Round = WithId & {
   seasonId: string;

@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import http from "k6/http";
 import {check} from "k6";
 import {Counter, Trend} from "k6/metrics";
+import {requestConfig} from "./utils/config";
 
 const createdResources = {
   articles: [] as Array<WithId>,
@@ -46,13 +47,6 @@ const resourceStatistics: Record<keyof typeof resourceToRelatedFunction, { count
   seasonTeams: { counter: new Counter('season_team_response_counter'), trend: new Trend('season_team_response_time') },
   teams: { counter: new Counter('team_response_counter'), trend: new Trend('team_response_time') },
   users: { counter: new Counter('user_response_counter'), trend: new Trend('user_response_time') },
-};
-
-let requestConfig = {
-  headers: {
-    Authorization: 'Bearer JWT',
-    'Content-Type': 'application/json',
-  },
 };
 
 function createUser(): WithId | false {
