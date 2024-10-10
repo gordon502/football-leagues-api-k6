@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Input file path (change this to your input file)
-const inputFilePath = path.join(__dirname, 'results/create-test-stderr.txt');
+const inputFilePath = path.join(__dirname, '../results/create-test-stderr.txt');
 // Output file path
 const outputFilePath = path.join(__dirname, 'output.json');
 
