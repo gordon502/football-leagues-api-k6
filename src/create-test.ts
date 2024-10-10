@@ -50,7 +50,7 @@ const resourceStatistics: Record<keyof typeof resourceToRelatedFunction, { count
 
 let requestConfig = {
   headers: {
-    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MjY5MzIxMDYsImV4cCI6MTcyNjkzNTcwNiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJ1c2VybmFtZSI6ImFkbWluQGFkbWluLmNvbSJ9.jsj7vpFKtpfkTzqnzyykUUTz9p_6-RUrP36j8ObDR_pna7iA79U0vXoy_FMWdJLvfb5Xd3K-RzEqvP81CdgCAXIN_ruoaU6SDWG0-RGGe9JkQQ4n5Oc57BwQtydYuyE370pm7pNMluh3XslYUmJXz4Y6UkKP2Go1P_62HQLes1PRvPqLunkcCItmzYbpwXLFlBgIpXHJdzw83-v6kGRsm1xvZ4nRKjNT11kPwHyh7mN7z7pkD_UqW6jl0HC_jCYeABTPeEJscS51XCxgsdFFryaRgMVn3AU2sVxBgoJY1kzL9ZjkxeGGJ6iwDFdvitiq34HjqcuIMifJmc6XXnQu5A',
+    Authorization: 'Bearer JWT',
     'Content-Type': 'application/json',
   },
 };
@@ -331,6 +331,10 @@ function areSampleResourcesCreated(limit: number): boolean {
   return Object.values(createdResources).every((value) => value.length >= limit);
 }
 
+function printResource(type: keyof typeof createdResources, object: WithId): void {
+  console.log(`${type}  || ${JSON.stringify(object, null, 2)}`);
+}
+
 function makePopulateRequest(limit: number): void {
   const pairs = [
     ['users', createUser],
@@ -351,9 +355,9 @@ function makePopulateRequest(limit: number): void {
       const result = method();
       if (result) {
         createdResources[key].push(result);
-      }
 
-      return;
+        printResource(key, result);
+      }
     }
   }
 }
@@ -365,6 +369,8 @@ function makeRandomRequest(): void {
 
   if (result) {
     createdResources[randomResourceKey].push(result);
+
+    printResource(randomResourceKey, result);
   }
 }
 
@@ -376,10 +382,4 @@ export default function main(): void {
   } else {
     makeRandomRequest();
   }
-}
-
-export function teardown() {
-  const content = JSON.stringify(createdResources, null, 2);
-
-  console.log(content);
 }
