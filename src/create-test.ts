@@ -3,7 +3,7 @@ import {ResourceEndpoints} from "./utils/resource-endpoints";
 import {GameResult, Leaderboard, Round, SeasonTeam, WithId} from "./utils/models";
 import dayjs from "dayjs";
 import http from "k6/http";
-import {check, sleep} from "k6";
+import {check} from "k6";
 import {Counter, Trend} from "k6/metrics";
 
 const createdResources = {
@@ -50,7 +50,7 @@ const resourceStatistics: Record<keyof typeof resourceToRelatedFunction, { count
 
 let requestConfig = {
   headers: {
-    Authorization: 'Bearer <place_here_JWT>',
+    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MjY5MzIxMDYsImV4cCI6MTcyNjkzNTcwNiwicm9sZXMiOlsiUk9MRV9BRE1JTiJdLCJ1c2VybmFtZSI6ImFkbWluQGFkbWluLmNvbSJ9.jsj7vpFKtpfkTzqnzyykUUTz9p_6-RUrP36j8ObDR_pna7iA79U0vXoy_FMWdJLvfb5Xd3K-RzEqvP81CdgCAXIN_ruoaU6SDWG0-RGGe9JkQQ4n5Oc57BwQtydYuyE370pm7pNMluh3XslYUmJXz4Y6UkKP2Go1P_62HQLes1PRvPqLunkcCItmzYbpwXLFlBgIpXHJdzw83-v6kGRsm1xvZ4nRKjNT11kPwHyh7mN7z7pkD_UqW6jl0HC_jCYeABTPeEJscS51XCxgsdFFryaRgMVn3AU2sVxBgoJY1kzL9ZjkxeGGJ6iwDFdvitiq34HjqcuIMifJmc6XXnQu5A',
     'Content-Type': 'application/json',
   },
 };
@@ -196,7 +196,7 @@ function createArticle(): WithId | false {
   return result ? res.json() as WithId : false;
 }
 
-function createRound(): Round | false{
+function createRound(): Round | false {
   const res = http.post(
     ResourceEndpoints.rounds,
     JSON.stringify({
@@ -376,6 +376,10 @@ export default function main(): void {
   } else {
     makeRandomRequest();
   }
+}
 
-  sleep(1);
+export function teardown() {
+  const content = JSON.stringify(createdResources, null, 2);
+
+  console.log(content);
 }
