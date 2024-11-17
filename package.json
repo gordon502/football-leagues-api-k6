@@ -27,5 +27,8 @@
   },
   "scripts": {
     "bundle": "webpack"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
   }
 }

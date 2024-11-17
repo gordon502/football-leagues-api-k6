@@ -1,7 +1,7 @@
 import {ResourceEndpoints} from "./utils/resource-endpoints";
 import {WithId} from "./utils/models";
 import http from "k6/http";
-import {check, sleep} from "k6";
+import {check} from "k6";
 import {requestConfig} from "./utils/config";
 import execution from "k6/execution";
 import {resourceStatistics} from "./utils/resource-statistics";
@@ -41,5 +41,4 @@ export default function main(): void {
   } else {
     deleteOrganizationalUnit({id: resource.id});
   }
-  sleep(1);
 }
